@@ -1,10 +1,11 @@
 import { useState } from "react";
 import ListQuote from "./ListQuote";
 import { addQuote } from "../actions";
-import { useDispatch } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux/es/exports";
 
 export default function AddQuote() {
   const dispatch = useDispatch();
+  const listQuote = useSelector((state) => state.myQuotes);
   const [value, setValue] = useState("");
 
   //set input value to state (controlled input)
@@ -16,7 +17,7 @@ export default function AddQuote() {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(addQuote(value.trim())); //trim for no duplicate value
-    setValue(""); //set value to empty string after submit
+    if (!listQuote.includes(value.trim())) setValue(""); //set value to empty string after submit
   };
 
   return (
